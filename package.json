@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "movie_api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisleecunningham/movie_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrisleecunningham/movie_api/issues"
+  },
+  "homepage": "https://github.com/chrisleecunningham/movie_api#readme",
+  "description": ""
+}
