@@ -75,9 +75,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to Flick Files!');
 });
 
-app.get('/documentation', (req, res) => {
-    res.sendFile('public/documentation.html', {root: __dirname});
-});
+app.get('/documentation', express.static('public'));
 
 app.get('/movies', (req, res) => {
     res.json(topTenMovies);
