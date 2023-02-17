@@ -3,6 +3,8 @@ const express = require('express'),
  
 const app = express();
 
+app.use(morgan('common'));
+
 
 let topTenMovies = [
     {
@@ -77,6 +79,12 @@ app.get('/documentation', express.static('public'));
 app.get('/movies', (req, res) => {
     res.json(topTenMovies);
 });
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Houston, we have a problem.");
+  });
 
 //Listen for requests
 app.listen(8080, () => {
