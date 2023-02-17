@@ -1,5 +1,5 @@
 const express = require('express'),
-    const morgan = require('morgan'),
+    morgan = require('morgan');
  
 const app = express();
 
@@ -79,6 +79,6 @@ app.get('/movies', (req, res) => {
 });
 
 //Listen for requests
-app.listen(8000, () => {
-    console.log('Flick Files is listening on port 8000.');
+app.listen(8080, () => {
+    console.log('Flick Files is listening on port 8080.');
 });
