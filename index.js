@@ -1,9 +1,6 @@
 const express = require('express'),
     const morgan = require('morgan'),
-    const http = require('http');
-
-const host = 'localhost';
-const port = 8080;    
+ 
 const app = express();
 
 
@@ -11,7 +8,7 @@ let topTenMovies = [
     {
         title: 'Shawshank Redemption',
         starring: 'Tim Robbins',
-        writer: 'Frank Darabont'
+        writer: 'Frank Darabont',
         director: 'Frank Darabont'
     },
     {
@@ -82,6 +79,6 @@ app.get('/movies', (req, res) => {
 });
 
 //Listen for requests
-app.listen(8080, () => {
-    console.log('Flick Files is listening on port 8080.');
+app.listen(8000, () => {
+    console.log('Flick Files is listening on port 8000.');
 });
