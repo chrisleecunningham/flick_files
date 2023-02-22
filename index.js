@@ -193,6 +193,20 @@ app.post('/users', (req, res) => {
     }
 });
 
+app.post('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+    const updatedUser = req.body;
+
+    let user = users.find( user => user.id == id );
+
+    if (user) {
+        user.favoriteMovies.push(movieTitle);
+        res.status(200).json(user);
+    }   else {
+        res.status(400).send('No such user');
+    }
+});
+
 // UPDATE requests
 app.put('/users/:id', (req, res) => {
     const { id } = req.params;
@@ -202,11 +216,12 @@ app.put('/users/:id', (req, res) => {
 
     if (user) {
         user.name = updatedUser.name;
-        res.status(200).json(user)
+        res.status(200).json(user);
     }   else {
-        res.status(400).send('No such user')
+        res.status(400).send('No such user');
     }
 });
+
 
 // READ requests
 app.get('/', (req, res) => {
