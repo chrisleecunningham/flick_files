@@ -11,9 +11,9 @@ app.use(bodyParser.json());
 
 let users = [
     {
-        id: 1,
-        name: 'Chris',
-        favoriteMovies: ['The Shawshank Redemption']
+        "id": 1,
+        "name": 'Chris',
+        "favoriteMovies": ['The Shawshank Redemption']
     }
 ];
 
