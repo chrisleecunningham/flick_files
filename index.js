@@ -235,9 +235,9 @@ app.get('/movies/genre/:genreName', (req, res) => {
     if (genre) {
         res.status(200).json(genre);
     }   else {
-        res.status(400).send('No such Flicking genre');
+        res.status(400).send('No such Flicking genre')
     }
-});
+})
 
 app.get('/movies/director/:directorName', (req, res) => {
     const { directorName } = req.params;
