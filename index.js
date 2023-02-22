@@ -180,7 +180,8 @@ let movies = [
     }
 ];
 
-// CREATE requests
+
+// CREATE user function
 app.post('/users', (req, res) => {
     const newUser = req.body;
 
@@ -193,6 +194,8 @@ app.post('/users', (req, res) => {
     }
 });
 
+
+// CREATE favoriteMovies under user function
 app.post('/users/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
     const updatedUser = req.body;
@@ -207,7 +210,8 @@ app.post('/users/:id/:movieTitle', (req, res) => {
     }
 });
 
-// UPDATE requests
+
+// UPDATE user name function
 app.put('/users/:id', (req, res) => {
     const { id } = req.params;
     const updatedUser = req.body;
@@ -216,22 +220,26 @@ app.put('/users/:id', (req, res) => {
 
     if (user) {
         user.name = updatedUser.name;
-        res.status(200).json(user);
+        res.status(200).send('');
     }   else {
         res.status(400).send('No such user');
     }
 });
 
 
-// READ requests
+// READ welcome statement function
 app.get('/', (req, res) => {
     res.send('Welcome to Flick Files!');
 });
 
+
+// READ see all movies function
 app.get('/movies', (req, res) => {
     res.status(200).json(movies);
 });
 
+
+// READ see one movie's info by title function
 app.get('/movies/:title', (req, res) => {
     const { title } = req.params;
     const movie = movies.find( movie => movie.title === title );
@@ -243,6 +251,8 @@ app.get('/movies/:title', (req, res) => {
     }
 });
 
+
+// READ genre info by name of genre function
 app.get('/movies/genre/:genreName', (req, res) => {
     const { genreName } = req.params;
     const genre = movies.find( movie => movie.genre.name === genreName ).genre;
@@ -254,6 +264,8 @@ app.get('/movies/genre/:genreName', (req, res) => {
     }
 })
 
+
+// READ director info by director name function
 app.get('/movies/director/:directorName', (req, res) => {
     const { directorName } = req.params;
     const director = movies.find( movie => movie.director.name === directorName ).director;
