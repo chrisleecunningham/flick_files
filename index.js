@@ -14,6 +14,11 @@ let users = [
         "id": 1,
         "name": "Chris",
         "favoriteMovies": ["The Shawshank Redemption"]
+    },
+    {
+        "id": 2,
+        "name": "Courtney",
+        "favoriteMovies": ["Jurassic Park"]
     }
 ];
 
@@ -198,8 +203,7 @@ app.post('/users', (req, res) => {
 // CREATE favoriteMovies under user function
 app.post('/users/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
-    const updatedUser = req.body;
-
+    
     let user = users.find( user => user.id == id );
 
     if (user) {
@@ -214,13 +218,27 @@ app.post('/users/:id/:movieTitle', (req, res) => {
 // DELETE favoriteMovies under user function
 app.delete('/users/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
-    const updatedUser = req.body;
-
+    
     let user = users.find( user => user.id == id );
 
     if (user) {
         user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
         res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);
+    }   else {
+        res.status(400).send('No such user');
+    }
+});
+
+
+// DELETE unregister user function
+app.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+    
+    let user = users.find( user => user.id == id );
+
+    if (user) {
+        users = users.filter( user => user.id != id);
+        res.status(200).send(`User ${id} has been deleted`);
     }   else {
         res.status(400).send('No such user');
     }
