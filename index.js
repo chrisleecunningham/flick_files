@@ -220,7 +220,7 @@ app.put('/users/:id', (req, res) => {
 
     if (user) {
         user.name = updatedUser.name;
-        res.status(200).send('');
+        res.status(200).json(user);
     }   else {
         res.status(400).send('No such user');
     }
