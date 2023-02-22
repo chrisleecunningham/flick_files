@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 let users = [
     {
         "id": 1,
-        "name": 'Chris',
-        "favoriteMovies": ['The Shawshank Redemption']
+        "name": "Chris",
+        "favoriteMovies": ["The Shawshank Redemption"]
     }
 ];
 
@@ -187,7 +187,7 @@ app.post('/users', (req, res) => {
     if (newUser.name) {
         newUser.id = uuid.v4();
         users.push(newUser);
-        res.status(201).json(newUser)
+        res.status(201).json(newUser);
     }   else {
         res.status(400).send('Needs a Flicking name')
     }
