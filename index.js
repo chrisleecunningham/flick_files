@@ -75,7 +75,7 @@ app.get('/users/:username', (req, res) => {
         .then((user) => {
             res.json(user);
         })
-        .catch((err) => {
+        .catch((error) => {
             console.error(error);
             res.status(500).send('Error ' + error);
         });
@@ -165,6 +165,47 @@ app.delete('/users/:username', (req, res) => {
 });
 
 
+// GET all movies
+app.get('/movies', (req, res) => {
+    Movies.find()
+        .then((movies) => {
+            res.status(201).json(movies);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
+});
+
+
+// GET a genre by name
+app.get('/movies/genre/:name', (req, res) => {
+    Movies.findOne( {'genre.name': req.params.name })
+        .then((movies) => {
+            res.json(movies.genre);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error ' + error);
+        });
+});
+
+
+// GET a director by name
+app.get('/movies/director/:name', (req, res) => {
+    Movies.findOne( {'director.name': req.params.name })
+        .then((movies) => {
+            res.json(movies.director);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error ' + error);
+        });
+});
+
+
+
+// OLD CODE JUST IN CASE
 // // CREATE user function
 // app.post('/users', (req, res) => {
 //     const newUser = req.body;
