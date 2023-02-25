@@ -130,6 +130,24 @@ app.post('/users/:username/movies/:MovieID', (req, res) => {
     });
 });
 
+
+// DELETE favoriteMovies by username
+app.delete('/users/:username/movies/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ username: req.params.username }, {
+        $pull: { favoriteMovies: req.params.MovieID }
+    },
+    { new: true },
+    (error, updatedUser) => {
+        if (error) {
+            console.error(error);
+            res.status(500). send('Error ' + error);
+        }   else {
+            res.json(updatedUser);
+        }
+    });
+});
+
+
 //Delete a user by username
 app.delete('/users/:username', (req, res) => {
     Users.findOneAndRemove({ username: req.params.username })
