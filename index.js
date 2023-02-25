@@ -114,7 +114,7 @@ app.put('/users/:username', (req, res) => {
 });
 
 
-// CREATE favoriteMovies by id
+// CREATE favoriteMovies by username
 app.post('/users/:username/movies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ username: req.params.username }, {
         $push: { favoriteMovies: req.params.MovieID }
@@ -128,6 +128,22 @@ app.post('/users/:username/movies/:MovieID', (req, res) => {
             res.json(updatedUser);
         }
     });
+});
+
+//Delete a user by username
+app.delete('/users/:username', (req, res) => {
+    Users.findOneAndRemove({ username: req.params.username })
+        .then((user) => {
+            if (!user) {
+                res.status(400).send(req.params.username + ' was not found');
+            }   else {
+                res.status(200).send(req.params.username + ' was deleted');
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
 });
 
 
