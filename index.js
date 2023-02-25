@@ -114,6 +114,23 @@ app.put('/users/:username', (req, res) => {
 });
 
 
+// CREATE favoriteMovies by id
+app.post('/users/:username/movies/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ username: req.params.username }, {
+        $push: { favoriteMovies: req.params.MovieID }
+    },
+    { new: true },
+    (error, updatedUser) => {
+        if (error) {
+            console.error(error);
+            res.status(500). send('Error ' + error);
+        }   else {
+            res.json(updatedUser);
+        }
+    });
+});
+
+
 // // CREATE user function
 // app.post('/users', (req, res) => {
 //     const newUser = req.body;
