@@ -26,10 +26,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* We’ll expect JSON in this format
 {
   ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
+  username: String,
+  password: String,
+  email: String,
+  birthDate: Date
 }*/
 app.post('/users', (req, res) => {
     Users.findOne({ username: req.body.username }).then((user) => {
@@ -79,6 +79,38 @@ app.get('/users/:username', (req, res) => {
             console.error(error);
             res.status(500).send('Error ' + error);
         });
+});
+
+
+// UPDATE a user's info, by username
+/* We’ll expect JSON in this format
+{
+  username: String,
+  (required)
+  password: String,
+  (required)
+  email: String,
+  (required)
+  birthDate: Date
+}*/
+app.put('/users/:username', (req, res) => {
+    Users.findOneAndUpdate({ username: req.params.username }, { $set:
+        {
+            username: req.body.username,
+            password: req.body.password,
+            email:req.body.email,
+            birthDate: req.body.birthDate
+        }
+    },
+    { new: true }, //Makes sure updated document is returned
+    (error, updatedUser) => {
+        if(error) {
+            console.error(error);
+            res.status(500).send('Error ' + error);
+        }   else {
+            res.json(updatedUser);
+        }
+    });
 });
 
 
