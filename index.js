@@ -22,7 +22,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', (req, res) => {
+    Users.findOne({ username: req.body.username }).then((user) => {
+        if (user) {
+            return res.status(400).send(req.body.username + 'already exists');
+        }   else {
+            Users
+                .create({
+                    username: req.body.username,
+                    password: req.body.password,
+                    email: req.body.email,
+                    birthDate: req.body.birthDate
+                })
+                .then((user) => {res.status(201).json(user) }).catch((error) => {
+                    console.error(error);
+                    res.status(500).send('Error ' + error);
+                })
+        }
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error ' + error);
+    });
+});
 
 
 // // CREATE user function
@@ -157,7 +188,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   });
 
 // //Listen for requests
-// app.listen(8080, () => {
-//     console.log('Flick Files is listening on port 8080.');
-// });
+app.listen(8080, () => {
+    console.log('Flick Files is listening on port 8080.');
+});
 
