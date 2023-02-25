@@ -63,8 +63,21 @@ app.get('/users', (req, res) => {
             res.status(201).json(users);
         })
         .catch((error) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
+});
+
+
+// GET a user by username
+app.get('/users/:username', (req, res) => {
+    Users.findOne( {username: req.params.username })
+        .then((user) => {
+            res.json(user);
+        })
+        .catch((err) => {
+            console.error(error);
+            res.status(500).send('Error ' + error);
         });
 });
 
