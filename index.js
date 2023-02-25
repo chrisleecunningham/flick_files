@@ -56,6 +56,19 @@ app.post('/users', (req, res) => {
 });
 
 
+// GET all users
+app.get('/users', (req, res) => {
+    Users.find()
+        .then((users) => {
+            res.status(201).json(users);
+        })
+        .catch((error) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
+
+
 // // CREATE user function
 // app.post('/users', (req, res) => {
 //     const newUser = req.body;
