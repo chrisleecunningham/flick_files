@@ -210,6 +210,19 @@ app.get('/movies/director/:name', passport.authenticate('jwt', { session: false}
 });
 
 
+// GET a movie by title
+app.get('/movies/:title', passport.authenticate('jwt', { session: false}), (req, res) => {
+    Movies.findOne( {title: req.params.title })
+        .then((movies) => {
+            res.json(movies.title);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error ' + error);
+        });
+});
+
+
 
 // OLD CODE JUST IN CASE
 // // CREATE user function
