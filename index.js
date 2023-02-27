@@ -41,7 +41,8 @@ app.post('/users', (req, res) => {
                     username: req.body.username,
                     password: req.body.password,
                     email: req.body.email,
-                    birthDate: req.body.birthDate
+                    birthDate: req.body.birthDate,
+                    favoriteMovies: req.body.favoriteMovies
                 })
                 .then((user) => {res.status(201).json(user) }).catch((error) => {
                     console.error(error);
