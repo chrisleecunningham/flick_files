@@ -7,7 +7,7 @@ const express = require('express'),
     morgan = require('morgan');
 
 const mongoose = require('mongoose'),
-    Models = require('./models/models.js'),
+    Models = require('./models.js'),
     Movies = Models.Movie,
     Users = Models.User;
 
@@ -63,7 +63,7 @@ app.post('/users', (req, res) => {
 
 
 // GET all users
-app.get('/users', (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false}), (req, res) => {
     Users.find()
         .then((users) => {
             res.status(201).json(users);
