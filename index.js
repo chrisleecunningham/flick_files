@@ -21,6 +21,11 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
+
 
 //Add a user
 /* We’ll expect JSON in this format
