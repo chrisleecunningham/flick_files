@@ -21,6 +21,9 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const cors = require('cors');
+app.use(cors());
+
 let auth = require('./auth')(app);
 
 const passport = require('passport');
@@ -37,6 +40,7 @@ require('./passport');
   birthDate: Date
 }*/
 app.post('/users', (req, res) => {
+    let hashedPassword = Users.hashedPassword(req.body.password);
     Users.findOne({ username: req.body.username }).then((user) => {
         if (user) {
             return res.status(400).send(req.body.username + 'already exists');
@@ -44,7 +48,7 @@ app.post('/users', (req, res) => {
             Users
                 .create({
                     username: req.body.username,
-                    password: req.body.password,
+                    password: hashedPassword,
                     email: req.body.email,
                     birthDate: req.body.birthDate,
                     favoriteMovies: req.body.favoriteMovies
