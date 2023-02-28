@@ -214,7 +214,7 @@ app.get('/movies/director/:name', passport.authenticate('jwt', { session: false}
 app.get('/movies/:title', passport.authenticate('jwt', { session: false}), (req, res) => {
     Movies.findOne( {title: req.params.title })
         .then((movies) => {
-            res.json(movies.title);
+            res.json(movies);
         })
         .catch((error) => {
             console.error(error);
