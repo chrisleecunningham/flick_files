@@ -6,6 +6,8 @@ const express = require('express'),
     uuid = require('uuid'),
     morgan = require('morgan');
 
+const { check, validationResult } = require('express-validator');
+
 const mongoose = require('mongoose'),
     Models = require('./models.js'),
     Movies = Models.Movie,
@@ -39,7 +41,28 @@ require('./passport');
   email: String,
   birthDate: Date
 }*/
-app.post('/users', (req, res) => {
+app.post('/users',
+   
+  // Validation logic here for request
+  //you can either use a chain of methods like .not().isEmpty()
+  //which means "opposite of isEmpty" in plain english "is not empty"
+  //or use .isLength({min: 5}) which means
+  //minimum value of 5 characters are only allowed
+    [
+        check('username', 'Username is required').isLength({min:5}),
+        check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('password', 'Password is required.').not().isEmpty(),
+        checl('email', 'Email does not appear to be valid.').isEmail()
+    ],  (req, res) => {
+
+    // check the validation object for errors
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+
     let hashedPassword = Users.hashedPassword(req.body.password);
     Users.findOne({ username: req.body.username }).then((user) => {
         if (user) {
@@ -53,10 +76,11 @@ app.post('/users', (req, res) => {
                     birthDate: req.body.birthDate,
                     favoriteMovies: req.body.favoriteMovies
                 })
-                .then((user) => {res.status(201).json(user) }).catch((error) => {
+                .then((user) => {res.status(201).json(user) })
+                .catch((error) => {
                     console.error(error);
                     res.status(500).send('Error ' + error);
-                })
+                });
         }
     })
     .catch((error) => {
