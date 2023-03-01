@@ -18,23 +18,8 @@ const mongoose = require('mongoose'),
 /* Use this if working locally only
 mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); */
 
-
-//OLD code
-/*mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });*/
-
- 
-const app = express();
-const PORT = process.env.PORT || 8080
-
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.CONNECTION_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-}
+mongoose.set('strictQuery', false);
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 
@@ -220,9 +205,9 @@ app.delete('/users/:username', passport.authenticate('jwt', { session: false}), 
 
 
 // GET all movies
-app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false}), (req, res) => {
 
-    await Movies.find()
+    Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
         })
