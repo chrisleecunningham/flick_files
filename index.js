@@ -391,16 +391,10 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false}), (req,
 //   });
 
 // //Listen for requests
-// OLd code just in case
-/*const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
     console.log('Listening on Port ' + port);
-});*/
+});
 
-// New listening logic per cyclic
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-})
+
 
