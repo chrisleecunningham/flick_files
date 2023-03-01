@@ -3,8 +3,10 @@
 //test
 
 
-const express = require('express'),
+const { MongoClient } = require('mongodb'),
+    express = require('express'),
     app = express(),
+    PORT = process.env.PORT || 3000,
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
     morgan = require('morgan');
@@ -16,11 +18,20 @@ const mongoose = require('mongoose'),
     Movies = Models.Movie,
     Users = Models.User;
 
+// Connection to db syntax from cyclic
+const uri = process.env.CONNECTION_URI;
+const client = new MongoClient(uri);
+
+
 /* Use this if working locally only
 mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); */
 
-mongoose.set('strictQuery', false);
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//OLD code in case needed
+/* mongoose.set('strictQuery', false);
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }); */
+
+
+
 
 
 
@@ -206,9 +217,9 @@ app.delete('/users/:username', passport.authenticate('jwt', { session: false}), 
 
 
 // GET all movies
-app.get('/movies', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
 
-    Movies.find()
+    await Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
         })
@@ -392,9 +403,19 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false}), (req,
 //   });
 
 // //Listen for requests
-const port = process.env.PORT || 3000;
+//OLD CODE in case needed
+/*const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
     console.log('Listening on Port ' + port);
+}); */
+
+
+client.connect(err => {
+    if(err){ console.error(err); return false;}
+    // connection to mongo is successful, listen for requests
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
 });
 
 
