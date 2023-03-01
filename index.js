@@ -18,7 +18,7 @@ const mongoose = require('mongoose'),
     Users = Models.User;
 
 // Connection syntax from cyclic
-const connectDB = async () => {
+/*const connectDB = async () => {
     try {
       const conn = await mongoose.connect(process.env.CONNECTION_URI);
       console.log(`MongoDB Connected: ${conn.connection.host}`);
@@ -26,16 +26,15 @@ const connectDB = async () => {
       console.log(error);
       process.exit(1);
     }
-  }
+  }*/
 
 
 /* Use this if working locally only
 mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); */
 
 //OLD code in case needed
-/* mongoose.set('strictQuery', false);
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }); */
-
+mongoose.set('strictQuery', false);
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }); 
 
 
 
@@ -410,18 +409,18 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false}), (req,
 
 // //Listen for requests
 //OLD CODE in case needed
-/*const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
     console.log('Listening on Port ' + port);
-}); */
+}); 
 
 
 //Connect to the database before listening
-connectDB().then(() => {
+/*connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("listening for requests");
     })
-})
+})*/
 
 
 
