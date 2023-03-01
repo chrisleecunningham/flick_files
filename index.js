@@ -15,7 +15,10 @@ const mongoose = require('mongoose'),
     Movies = Models.Movie,
     Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true });
+/* Use this if working locally only
+mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); */
+
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
  
 const app = express();
