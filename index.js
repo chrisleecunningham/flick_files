@@ -4,6 +4,7 @@
 
 
 const express = require('express'),
+    app = express(),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
     morgan = require('morgan');
