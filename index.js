@@ -3,8 +3,7 @@
 //test
 
 
-const { MongoClient } = require('mongodb'),
-    express = require('express'),
+const express = require('express'),
     app = express(),
     PORT = process.env.PORT || 3000,
     bodyParser = require('body-parser'),
@@ -18,9 +17,16 @@ const mongoose = require('mongoose'),
     Movies = Models.Movie,
     Users = Models.User;
 
-// Connection to db syntax from cyclic
-const uri = process.env.CONNECTION_URI;
-const client = new MongoClient(uri);
+// Connection syntax from cyclic
+const connectDB = async () => {
+    try {
+      const conn = await mongoose.connect(process.env.CONNECTION_URI);
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+  }
 
 
 /* Use this if working locally only
@@ -217,9 +223,9 @@ app.delete('/users/:username', passport.authenticate('jwt', { session: false}), 
 
 
 // GET all movies
-app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false}), (req, res) => {
 
-    await Movies.find()
+    Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
         })
