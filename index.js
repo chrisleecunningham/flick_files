@@ -18,10 +18,25 @@ const mongoose = require('mongoose'),
 /* Use this if working locally only
 mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); */
 
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//OLD code
+/*mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });*/
 
  
 const app = express();
+const PORT = process.env.PORT || 3000
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.CONNECTION_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+
 
 app.use(morgan('common'));
 app.use(express.static('public'));
@@ -390,8 +405,16 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false}), (req,
 //   });
 
 // //Listen for requests
-const port = process.env.PORT || 8080;
+// OLd code just in case
+/*const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
     console.log('Listening on Port ' + port);
-});
+});*/
+
+// New listening logic per cyclic
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
