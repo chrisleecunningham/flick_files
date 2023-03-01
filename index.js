@@ -416,13 +416,12 @@ app.listen(port, '0.0.0.0',() => {
 }); */
 
 
-client.connect(err => {
-    if(err){ console.error(err); return false;}
-    // connection to mongo is successful, listen for requests
+//Connect to the database before listening
+connectDB().then(() => {
     app.listen(PORT, () => {
         console.log("listening for requests");
     })
-});
+})
 
 
 
