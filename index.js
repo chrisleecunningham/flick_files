@@ -44,7 +44,7 @@ require('./passport');
 // READ welcome statement function
 app.get('/', (req, res) => {
     res.send('Flick-Files: The movies are out there.');
- );
+});
 
 
 //Add a user
