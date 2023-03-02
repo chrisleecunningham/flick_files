@@ -17,27 +17,13 @@ const mongoose = require('mongoose'),
     Movies = Models.Movie,
     Users = Models.User;
 
-// Connection syntax from cyclic
-/*const connectDB = async () => {
-    try {
-      const conn = await mongoose.connect(process.env.CONNECTION_URI);
-      console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-      console.log(error);
-      process.exit(1);
-    }
-  }*/
-
 
 /* Use this if working locally only
 mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); */
 
-//OLD code in case needed
+
 mongoose.set('strictQuery', false);
 mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }); 
-
-
-
 
 
 app.use(morgan('common'));
@@ -52,6 +38,13 @@ let auth = require('./auth')(app);
 
 const passport = require('passport');
 require('./passport');
+
+
+
+// READ welcome statement function
+app.get('/', (req, res) => {
+    res.send('Flick-Files: The movies are out there.');
+ );
 
 
 //Add a user
@@ -415,12 +408,7 @@ app.listen(port, '0.0.0.0',() => {
 }); 
 
 
-//Connect to the database before listening
-/*connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-})*/
+
 
 
 
