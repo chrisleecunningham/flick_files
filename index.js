@@ -23,7 +23,7 @@ mongoose.connect('mongodb://localhost:27017/flick_files', { useNewUrlParser: tru
 
 
 mongoose.set('strictQuery', false);
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }); 
+mongoose.connect( process.env.CONNECTION_URI || 'mongodb:localhost:27017/flick_files', { useNewUrlParser: true, useUnifiedTopology: true }); 
 
 
 app.use(morgan('common'));
@@ -143,10 +143,12 @@ app.get('/users/:username', passport.authenticate('jwt', { session: false}), (re
   birthDate: Date
 }*/
 app.put('/users/:username', passport.authenticate('jwt', { session: false}), (req, res) => {
+    let hashedPassword = Users.hashPassword(req.body.password);
+
     Users.findOneAndUpdate({ username: req.params.username }, { $set:
         {
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             email:req.body.email,
             birthDate: req.body.birthDate
         }
